@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>Covid19 Map</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3lgi78evml"></script>
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <!--14년 국내 사망사고 위치 자료 입니다.-->  
+    <script type="text/javascript" src="./data/accidentdeath.js"></script>
+
+    <!-- 네이버 에서 제공하는 마커클러스터링 파일 입니다.-->
+    <script type="text/javascript" src="./javascripts/MarkerClustering.js"></script>
+
+    <link href="stylesheets/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/main.css" />
+    <style type="text/css">
+      html, body { width:100%;height:100%;padding:0;margin:0; }
+
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    
+    </style>
+</head>
+
+
+<html style="height: 100%;">
+<body>
+  
+    <div class="to">
+        <div class="toto">
+          <span style="top: 15px;font-weight: lighter;font-size: 20px;position:absolute;left:20px;"
+            class="slidede glyphicon glyphicon-menu-hamburger"></span>
+          <span class="corona">Covid MAP</span>
+          <!--<div class="coroname" onclick='location.href="https://maskmap.site"''>마스크맵</div>-->
+        </div>
+      </div><br><br><br><br><br><br>
+      
+      <!--출처 https://livecorona.co.kr/-->
+      <!--https://github.com/LiveCoronaDetector/livecod-->
+      <div class="col-xl-4 col-lg-12 status-now">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-danger">확진자 현황(6월9일 기준)</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body text-center">
+            <h6>국내확진자</h6>
+            <div class="count-text mb-3"><span id="한국확진자">11,852</span>명<span id="한국확진자전일비"> (전일대비) +38</span></div>
+            <h6>세계확진자</h6>
+            <div class="count-text mb-3"><span id="확진자수">7,118,471</span>명<span id="세계확진자전일비"> (전일대비) +108,122</span></div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-danger">상세현황</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <h6>국내현황 : <span class="koreanText">11,852</span>명</h6>
+          <div class="small font-weight-bold">
+            <span class="float-right mb-2">(격리자
+            <span class="koreanText yellow">989</span>명/완치자
+            <span class="koreanText green">10,589</span>명/사망자
+            <span class="koreanText red">274</span>명)
+            </span>
+          </div>
+          <div class="progress mb-4">
+            <div class="progress-bar bg-warning koreanChart" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="bottom" title="" style="width: 7.61913%;" data-original-title="격리자 889명"></div>
+            <div class="progress-bar bg-success koreanChart" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="bottom" title="" style="width: 90.0411%;" data-original-title="완치자 10,506명"></div>
+            <div class="progress-bar bg-danger koreanChart" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="bottom" title="" style="width: 2.33973%;" data-original-title="사망자 273명"></div>
+          </div>
+          <h6>세계현황 : <span class="worldText">7,118,471</span>명</h6>
+          <div class="small font-weight-bold">
+            <span class="float-right mb-2">(격리자
+            <span class="worldText yellow">3,418,541</span>명/완치자
+            <span class="worldText green">3,293,408</span>명/사망자
+            <span class="worldText red">406,522</span>명)
+            </span>
+          </div>
+          <div class="progress mb-4">
+            <div class="progress-bar bg-warning worldChart" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="bottom" title="" style="width: 50.8351%;" data-original-title="격리자 3,371,886명"></div>
+            <div class="progress-bar bg-success worldChart" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="bottom" title="" style="width: 43.268%;" data-original-title="완치자 2,869,963명"></div>
+            <div class="progress-bar bg-danger worldChart" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="bottom" title="" style="width: 5.89683%;" data-original-title="사망자 391,136명"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="infobox">
+        <span class="confirm" style="font-weight: bolder;">6월9일 기준 확진자</span>
+        <div class="content">
+          <div>11,852
+           <div class="smallfont">전일대비(+38)</div></div>
+        </div><hr>
+
+        <div class="content1 clear" style="font-size: 20px;justify-content:space-evenly;padding: 0 0px;">
+          <div>
+            <div class="recovery" style="font-size:15px;color:rgb(23, 153, 23);font-weight:bolder;">완치(격리해제)</div>
+            <div>10,589<div class="smallfont">(+26)</div></div>
+          </div><hr>
+          <div style="width: 1px; height:100%; background:black;"></div>
+          <div>
+            <div class="cure" style="font-size:15px;color:rgb(252, 152, 38);font-weight:bolder;">치료중(격리 중)</div>
+            <div>989<div class="smallfont">(+11)</div></div>
+          </div><hr>
+          <div>
+            <div class="death" style="font-size:15px;color:red;font-weight:bolder;">사망</div>
+            <div>274<div class="smallfont">(+1)</div></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="infobox2">
+        <span class="visit" style="font-size:12px;font-weight:bolder;">방문날짜에 따른 색상구분</span>
+        <br>
+        <hr style="border-top: 1.5px solid rgb(95, 90, 90); margin-bottom:6.5px !important;margin-top:0px !important;">
+        <div class="cir-wrap">
+          <div class="circir blue"></div>
+          <span class="under9" style="font-weight: bolder;">
+            7일 이상 10일 이하
+          </span>
+        </div>
+        <div class="cir-wrap">
+          <div class="circir yellow"></div>
+          <span class="under4" style="font-weight: bolder;">
+            3일 이상 7일 미만
+          </span>
+        </div>
+        <div class="cir-wrap">
+          <div class="circir green"></div>
+          <span class="under4" style="font-weight: bolder;">
+            24시간 이상 3일 미만
+          </span>
+        </div>
+        <div class="cir-wrap">
+          <div class="circir red"></div>
+          <span class="under24" style="font-weight: bolder;">
+            24시간 미만
+          </span>
+        </div>
+      </div>
+      
+          <div class="link" style="padding-top: 13px;
+          border-top: 1px solid white;word-break: keep-all;">
+            <span style="font-weight: bolder;font-size:18px;">코로나 바이러스 예방법</span><br>
+            <span style="font-weight: bolder;font-size:15px;">
+              <a style="font-weight: bolder;" href=" https://m.terms.naver.com/entry.nhn?cid=66630&amp;docId=5916213&amp;categoryId=66630">코로나 바이러스 예방법
+                지식백과</a></span><br>
+                <span style="color:gray;font-size:12px;">출처 : 네이버</span><br>
+                <span style="color:gray;font-size:12px;">제공 : 질병관리본부</span><br>
+              <a style="font-weight: bolder;" href="https://mask.livecorona.co.kr/?utm_source=livecod_main&utm_medium=button&utm_campaign=maskmap_large_screen">공적 마스크 판매처
+                </a></span><br>
+                <span style="color:gray;font-size:12px;">출처 : 라이브코로나(livecorona.co.kr)</span><br>
+          </div>
+   
+      
+    <div id="map" style="width:100%;height:100%;padding:0;margin:0;"></div>
+    
+    <!--<div id="map" style="width:100%;height:100%;"></div>-->
+  <script type="text/html" src="javascripts"/geojson.json"></script><script type="text/javascript"
+  src="javascripts/notice.js"></script>
+  <script>
+    const mylat = "";
+    const mylng = "";
+    if (mylat && mylng) {
+      $(".nono").css("display", "none");
+      $(".notice").css("display", "none");
+    }
+  </script>
+    
+    <!-- <div id="cu_alert">현재 위치와 100m정도 차이가 날 수 있습니다.</div> -->
+  
+  <script type="text/javascript"
+    src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3lgi78evml=panorama,geocoder">
+  </script>
+  <script type="text/javascript" src="/javascripts/ndata.js"></script>
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=056c2b6286f426f8baf280dece525a6b&libraries=services"></script>
+  <script type="text/javascript" src="/javascripts/MarkerClustering.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+
+  
+
+    <script>
+    var map = new naver.maps.Map("map", {
+        zoom: 6,
+        center: new naver.maps.LatLng(36.2253017, 127.6460516),
+        zoomControl: true,
+        zoomControlOptions: {
+            position: naver.maps.Position.TOP_LEFT,
+            style: naver.maps.ZoomControlStyle.SMALL
+        }
+    });
+
+    var markers = [],
+        data = accidentDeath.searchResult.accidentDeath;
+
+    for (var i = 0, ii = 1000; i < ii; i++) {
+        var spot = data[i],
+            latlng = new naver.maps.LatLng(spot.grd_la, spot.grd_lo),
+            marker = new naver.maps.Marker({
+                position: latlng,
+                draggable: true
+            });
+
+        markers.push(marker);
+    }
+
+    var htmlMarker1 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./images/cluster-marker-1.png);background-size:contain;"></div>',
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        },
+        htmlMarker2 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./images/cluster-marker-2.png);background-size:contain;"></div>',
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        },
+        htmlMarker3 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./images/cluster-marker-3.png);background-size:contain;"></div>',
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        },
+        htmlMarker4 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./images/cluster-marker-4.png);background-size:contain;"></div>',
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        },
+        htmlMarker5 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./images/cluster-marker-5.png);background-size:contain;"></div>',
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        };
+    
+
+    var markerClustering = new MarkerClustering({
+        minClusterSize: 2,
+        maxZoom: 13,
+        map: map,
+        markers: markers,
+        disableClickZoom: false,
+        gridSize: 120,
+        icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
+        indexGenerator: [10, 100, 200, 500, 1000],
+        stylingFunction: function(clusterMarker, count) {
+            $(clusterMarker.getElement()).find('div:first-child').text(count);
+        }
+    });
+    
+    </script>
+    
+    
+</body>
+</html>
